@@ -1,8 +1,9 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
-export default function page() {
+function page() {
   const [search, setSearch] = useState<string>("");
   const [valueSearch, setValueSearch] = useState<string>("");
   const router = useRouter();
@@ -12,14 +13,16 @@ export default function page() {
   const handleClick = () => {
     router.push(`/posts?search=${search}`);
   };
+
   const SearchInput = () => {
     const searchParam = useSearchParams();
     useEffect(() => {
       let search = searchParam.get("search");
       if (search) setValueSearch(search);
     }, [searchParam]);
+
     return (
-      <Suspense>
+      <>
         <input
           onChange={handleChange}
           value={search}
@@ -32,7 +35,7 @@ export default function page() {
         >
           Tìm kiếm
         </button>
-      </Suspense>
+      </>
     );
   };
   return (
@@ -42,3 +45,5 @@ export default function page() {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(page), { ssr: false });
