@@ -1,6 +1,6 @@
 'use client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 
 export default function page() {
     const [search,setSearch]=useState<string>('');
@@ -18,9 +18,11 @@ export default function page() {
         if(search)setValueSearch(search);
     },[searchParam])
   return (
+    <Suspense fallback={<div>Loading ...</div>}>
     <div>
       <input onChange={handleChange} value={search} className='border-solid border-2  border-gray-400 p-[10px]' type="text"  /> <button onClick={handleClick} className='bg-black text-white rounded-[5px] p-[5px]'>Tìm kiếm</button>
       <p>tìm kiếm:{valueSearch}</p>
     </div>
+    </Suspense>
   )
 }
