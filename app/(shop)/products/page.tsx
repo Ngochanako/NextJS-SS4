@@ -5,9 +5,18 @@ type Search={
   name:string,
   category:string
 }
+function Search(){
+  const searchParam=useSearchParams();
+  return(
+    <>
+    <h3>Tên sản phẩm:{searchParam.get('name')}</h3>
+    <h3>Danh mục:{searchParam.get('category')}</h3>
+    </>
+  )
+}
 export default function page() {
   const router=useRouter();
-  const searchParam=useSearchParams();
+  
   const [search,setSearch]=useState<Search>({
     name:'',
     category:''
@@ -20,10 +29,9 @@ export default function page() {
      router.push(`/products?name=${search.name}&category=${search.category}`);
   }
   return (
-    <Suspense fallback={<div>Loading</div>}>
+    
     <div className='m-[50px]'>
-      <h3>Tên sản phẩm:{searchParam.get('name')}</h3>
-      <h3>Danh mục:{searchParam.get('category')}</h3>
+       <Suspense fallback={<div>Loading</div>}><Search/></Suspense>
       <input onChange={handleChange} name='name' type="text" placeholder='Tìm kiếm theo tên'/>
       <br />
       <br />
@@ -32,6 +40,5 @@ export default function page() {
       <br />
       <button className='bg-slate-700 text-white rounded-[5px] p-[10px]' onClick={handleClick}>Tìm kiếm</button>
     </div>
-    </Suspense>
   )
 }
